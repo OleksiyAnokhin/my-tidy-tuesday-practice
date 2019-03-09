@@ -1,0 +1,17 @@
+---
+title: "Women in the Workforce"
+author: "Oleksiy Anokhin"
+date: "March 8, 2019"
+output: html_document
+---
+
+```{r, packages, echo = FALSE, message = FALSE, warning = FALSE}
+library(tidyverse)
+```
+
+```{r, read, echo = FALSE, message = FALSE, warning = FALSE}
+earnings_female <- read_csv("earnings_female.csv")
+employed_gender <- read_csv("employed_gender.csv")
+jobs_gender <- read_csv("jobs_gender.csv")
+```
+
