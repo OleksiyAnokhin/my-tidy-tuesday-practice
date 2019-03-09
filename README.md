@@ -1,2 +1,5 @@
-# my-tidy-tuesday-practice
-This repo was created to practice with Tidy Tuesday data
+### This repo was created to practice with Tidy Tuesday data
+
+The original repo with data is [Tidy Tuesday](https://github.com/rfordatascience/tidytuesday)
+
+![](Images/TidyTuesday.png)
