@@ -1,0 +1,10 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/474995/7655282340704b84a86ed2163e05d727
+bundleId: https://api.rpubs.com/api/v1/document/474995/7655282340704b84a86ed2163e05d727
+url: http://rpubs.com/Oleksiy/474995
+when: 1552269226.59544

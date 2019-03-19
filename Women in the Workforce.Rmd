@@ -9,6 +9,9 @@ output: html_document
 # Install packages 
 library(tidyverse)
 library(ggthemes)
+library(RColorBrewer)
+# Disable scientific notation
+options(scipen = 999)
 ```
 
 ```{r, read data, echo = FALSE, message = FALSE, warning = FALSE}
@@ -18,7 +21,7 @@ employed_gender <- read_csv("employed_gender.csv")
 jobs_gender <- read_csv("jobs_gender.csv")
 ```
 
-As a part of weekly [**#Tidy Tuesday**](https://github.com/rfordatascience/tidytuesday) activities, I decided to do some brief analysis of gender labour patterns.
+As a part of weekly [**#TidyTuesday**](https://github.com/rfordatascience/tidytuesday) activities, I decided to do some brief analysis of gender labour patterns.
 
 For this analysis I used given data from the Bureau of Labor Statistics and the Census Bureau about women in the workforce. There are historical data about women's earnings and employment status, as well as detailed information about specific occupation and earnings from 2013-2016.
 
@@ -89,14 +92,56 @@ ggplot(females_executives_wage_percent, aes(year, wage_percent_of_male)) + geom_
 ```
 </center>
 
-```{r, executives, females viz, echo = FALSE, message = FALSE, warning = FALSE}
+```{r, executives, echo = FALSE, message = FALSE, warning = FALSE}
 # This will be comparison of male and female chief executives
-executives <- jobs_gender %>% filter(occupation == "Chief executives") %>% select(year, workers_male, workers_female)
+executives <- jobs_gender %>% filter(occupation == "Chief executives") %>% 
+  select(year, workers_male, workers_female) %>% gather(key = "gender", value = "number", workers_male, workers_female)
 ```
 
+But this picture will not be full and clear without comparison of male and female chief executives between 2013 and 2016.
 
+First of all, **how big is a gap in numbers of positions for males and females?**
 
+We can see that the gap is really huge, and as we found out before, women are less than 1/4 of chief executives. 
 
+<center>
+```{r, executives numbers viz, echo = FALSE, message = FALSE, warning = FALSE}
+  ggplot(executives, aes(year, number, color = gender)) + geom_line(size = 2) +
+   theme_tufte() +
+   theme(axis.title.y = element_blank()) +
+   theme(axis.title.x = element_blank()) +
+   theme(legend.position = "bottom") +
+   theme(legend.title = element_blank()) +
+   ylim(235000, 820000) + 
+   scale_color_manual(values = c("red", "blue"),
+   labels = c("Females", "Males"))
+```
+</center>
 
+**How about difference in salaries? How big is it?**
 
+```{r, executives salaries, echo = FALSE, message = FALSE, warning = FALSE}
+executives_earnings <- jobs_gender %>% filter(occupation == "Chief executives") %>% select(year, total_earnings_male, total_earnings_female) %>%
+  gather(key = "gender", value = "number", total_earnings_male, total_earnings_female)
+```
+
+As we can see below, the gap is huge. And it is getting bigger. In 2013 it was about 30K, but in 2016 it became about 38K.
+
+<center>
+```{r, executives salaries viZ, echo = FALSE, message = FALSE, warning = FALSE}
+ ggplot(executives_earnings, aes(year, number, color = gender)) + geom_line(size = 2) +
+   theme_tufte() +
+   theme(axis.title.y = element_blank()) +
+   theme(axis.title.x = element_blank()) +
+   theme(legend.position = "bottom") +
+   theme(legend.title = element_blank()) +
+   ylim(95000, 145000) + 
+   scale_color_manual(values = c("red", "blue"),
+   labels = c("Females", "Males"))
+```
+</center>
+
+**Conclusion**
+
+As we can see, the gap between number of male and female chief executives remain pretty the same; moreover, the difference in salaries grows significantly. 
 
