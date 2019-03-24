@@ -1,0 +1,114 @@
+---
+title: "<center>Visualizing 11 years of police traffic stops <br>in Albany, New York</center></br>"
+author: "Oleksiy Anokhin"
+date: "March 23, 2019"
+output: html_document
+---
+
+```{r, packages, echo = FALSE, message = FALSE, warning = FALSE}
+# Install packages 
+library(tidyverse)
+library(ggthemes)
+library(knitr)
+# Disable scientific notation
+options(scipen = 999)
+```
+
+This small project is a part of a weekly [**#TidyTuesday**](https://github.com/rfordatascience/tidytuesday) challenge and uses [**The Stanford Open Policing Project**](https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-03-19) data. More information about the project in this [video](https://www.youtube.com/watch?v=iwOWcuFjNfw).
+
+I decided to analyze information about traffic stops by police in Albany, NY, because I lived in New State before and just curious about situation there. 
+Albany data contains 10328 police stops of Albany drivers between Decemeber 2007 and December 2017. 
+
+Firstly, I decided to see the number of stops by race. It immediately highlighted the first problem - there are too many NAs in this dataset. 
+
+```{r, race, echo = FALSE, message = FALSE, warning = FALSE}
+albany_data <- read_rds("albany_data.rds")
+
+# Filter by race
+albany_stops_by_race <- albany_data %>% group_by(subject_race) %>% summarise(number = n())
+kable(albany_stops_by_race)
+```
+
+In the form of a barchart stops by race will look like this: 
+
+<center>
+```{r, race1, echo = FALSE, message = FALSE, warning = FALSE}
+# Visualize a number of stops by race
+ggplot(albany_stops_by_race, aes(reorder(subject_race, number), number, fill = subject_race)) + geom_bar(stat = "identity", color  = "black") +
+  theme_tufte() +
+  theme(axis.title.y = element_blank()) +
+  theme(axis.title.x = element_blank()) +
+  theme(legend.position = "none")
+```
+</center>
+
+Then I asked myself about the age? Maybe drivers of a specific raceare stopped differently based on their age? But boxplot looks similar. Moreover, it highlighted the second potential problem with data - age. Looks like there were drivers, who were 100+ yo, when they were stopped by police. Is it possible or it is a problem with typos? 
+
+<center>
+```{r, age, echo = FALSE, message = FALSE, warning = FALSE}
+ggplot(albany_data, aes(subject_race, subject_age, fill = subject_race)) + geom_boxplot() +
+  theme_tufte() +
+  theme(axis.title.y = element_blank()) +
+  theme(axis.title.x = element_blank()) +
+  theme(legend.position = "none")
+```
+</center>
+
+My third idea was to check how drivers are stopped by hour? Any specific hours with more stops? 
+Looks like that closer to midnight police stops drivers much more frequently and not very active early in the morning. 
+Interesting that the majority of stops without race identification were made during these late hours. Maybe policemen do not have time to fill in forms and skip some boxes in their forms? 
+
+<center>
+```{r, hour, echo = FALSE, message = FALSE, warning = FALSE}
+albany_data$time <- strptime(albany_data$time, "%H:%M:%S")
+albany_data$time <- as.integer(format(albany_data$time, "%H"))
+
+ggplot(albany_data, aes(time, fill = subject_race)) + geom_histogram(binwidth = 1, color = "black", alpha = 0.8) +
+  scale_x_continuous(breaks = seq(0, 23, 1)) + 
+  theme_tufte() +
+  theme(axis.title.y = element_blank()) +
+  theme(axis.title.x = element_blank()) +
+  theme(legend.title = element_blank()) +
+  theme(legend.position = "bottom") + 
+  ylim(0, 8000)
+```
+</center>
+
+Forth idea - any patterns with gender? The good thing - almost all drivers were idintified by their gender. 
+
+```{r, gender, echo = FALSE, message = FALSE, warning = FALSE}
+albany_stops_by_gender <- albany_data %>% group_by(subject_sex) %>% summarise(number = n())
+kable(albany_stops_by_gender)
+```
+
+Looks like stops of male drivers prevail significantly. Probably the majority of drivers are males. The chart looks like this:
+
+<center>
+```{r, gender1, echo = FALSE, message = FALSE, warning = FALSE}
+ggplot(albany_stops_by_gender, aes(reorder(subject_sex, number), number, fill = subject_sex)) + geom_bar(stat = "identity", color  = "black") +
+  theme_tufte() +
+  theme(axis.title.y = element_blank()) +
+  theme(axis.title.x = element_blank()) +
+  theme(legend.position = "none")
+```
+</center>
+
+Ok, maybe any specific patterns of race AND gender? Maybe some group was stopped disproportinally here? 
+
+```{r, gender2, echo = FALSE, message = FALSE, warning = FALSE}
+albany_stops_by_race_gender <- albany_data %>% group_by(subject_race, subject_sex) %>% summarise(number = n())
+kable(albany_stops_by_race_gender)
+```
+
+We can see that NAs create problems here. Probably not too much sense to visualize this. 
+
+My last question was about types of violations, which caused stops. Any patterns here? 
+
+```{r, violation, echo = FALSE, message = FALSE, warning = FALSE}
+albany_stops_by_violation_10 <- albany_data %>% group_by(violation) %>% summarise(number = n()) %>% arrange(desc(number)) %>% top_n(10)
+kable(albany_stops_by_violation_10)
+```
+
+Top-10 violations in Albany? Please see. Violations of speed limits is the biggest problem. 
+
+**Analysis of violations by race and gender will be added later**
