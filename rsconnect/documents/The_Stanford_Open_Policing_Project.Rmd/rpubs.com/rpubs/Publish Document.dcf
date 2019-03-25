@@ -1,0 +1,10 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/479740/e8072852cb1846708e019327f53a263d
+bundleId: https://api.rpubs.com/api/v1/document/479740/e8072852cb1846708e019327f53a263d
+url: http://rpubs.com/oleksiy_anokhin/479740
+when: 1553544882.37302

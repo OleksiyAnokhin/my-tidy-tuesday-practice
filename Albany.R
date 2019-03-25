@@ -2,6 +2,7 @@ library(tidyverse)
 library(ggthemes)
 library(leaflet)
 library(leaflet.extras)
+library(knitr)
 
 
 # Read data
@@ -54,7 +55,11 @@ albany_stops_by_violation_10 <- albany_data %>% group_by(violation) %>% summaris
 albany_stops_by_violation_10 
 
 
-albany_stops_by_violation_sex_10 <- albany_data %>% group_by(violation, subject_sex) %>% summarise(number = n()) %>% arrange(desc(number)) %>% select(number > 2331)
+albany_stops_by_violation_sex <- albany_data %>% group_by(violation, subject_sex) %>% summarise(number = n()) %>% arrange(desc(number)) 
+
+albany_stops_by_violation_sex_20 <- head(albany_stops_by_violation_sex, 20)
+
+albany_stops_by_violation_sex_20
 
 ggplot(albany_stops_by_violation_sex_10, aes(reorder(violation, number), number, color = subject_sex)) + geom_bar(stat = "identity") + coord_flip()
 
@@ -67,15 +72,29 @@ ggplot(albany_stops_by_violation_sex_10, aes(reorder(violation, number), number,
   xlim(0, 15000)
 
 
-<center>
-  ```{r, violation2, echo = FALSE, message = FALSE, warning = FALSE}
-ggplot(albany_stops_by_violation_10, aes(reorder(violation, number), number)) + geom_bar(stat = "identity", color  = "black") +
-  theme_tufte() +
-  # coord_flip() +
-  theme(axis.title.y = element_blank()) +
-  theme(axis.title.x = element_blank()) +
-  theme(legend.position = "none") +
-  xlim(0, 15000)
-```
+albany_data <- read_rds("albany_data.rds")
+albany_data <- rename(albany_data, age = subject_age, race = subject_race, sex = subject_sex)
 
+albany_age_outliers <- albany_data %>% filter(age > 90)
+glimpse(albany_age_outliers)
 
+leaflet(albany_data) %>% addProviderTiles(providers$Stamen.TonerLite) %>%
+  # setView( 178, -20, 5 ) %>%
+  addHeatmap(lng = ~lng, lat = ~lat, intensity = ~violation)
+
+albany_heatmap <- leaflet(albany_data_gps_nas) %>%
+  addProviderTiles(providers$Stamen.TonerLite) %>%
+  addHeatmap(lng=~lng, lat=~lat,
+             blur = 20, max = 0.05, radius = 15)
+albany_heatmap 
+
+checked_nas <- sapply(albany_data, function(x) sum(is.na(x)))
+kable(checked_nas)
+
+albany_data_gps_nas <- albany_data %>% drop_na(albany_data$lat, albany_data$lng)
+
+albany_data_gps_nas <- albany_data %>% filter_at(.vars = vars(lng, lat), .vars_predicate = any_vars(!is.na(.)))
+
+albany_data_race_nas <- albany_data %>% filter_at(.vars = vars(race), .vars_predicate = any_vars(!is.na(.)))
+albany_stops_by_violation_race_nas <- albany_data_race_nas %>% group_by(violation, race) %>% summarise(number = n()) %>% arrange(desc(number))
+kable(albany_stops_by_violation_race_nas)
