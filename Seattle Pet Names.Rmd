@@ -1,0 +1,98 @@
+---
+title: "<center>Seattle Pets: Explained<c/center>"
+author: "Oleksiy Anokhin"
+date: "March 26, 2019"
+output: html_document
+---
+
+```{r, packages, echo = FALSE, message = FALSE, warning = FALSE}
+# Install packages 
+library(tidyverse)
+library(ggthemes)
+library(knitr)
+library(leaflet)
+library(leaflet.extras)
+library(maps)
+library(mapdata)
+library(ggmap)
+library(stringr)
+library(viridis)
+library(zipcode)
+# Disable scientific notation
+options(scipen = 999)
+```
+
+_This small project is a part of a weekly [**#TidyTuesday**](https://github.com/rfordatascience/tidytuesday) challenge. This time I will explore ... Seattle pets._
+
+_My first question was - How many pets per zip code in Seattle?_
+
+_In order to figure it out, I would like to merge a given dataset with `data(zipcode)` from `zipcode` package, using `left_join()`. It will allow to assign each zipcode to a specific GPS location_ 
+
+```{r, data, echo = FALSE, message = FALSE, warning = FALSE}
+pets <- read_csv("seattle_pets.csv")
+data(zipcode)
+zips <- pets %>% group_by(zip_code) %>% summarize(number = n()) %>% arrange(desc(number))
+seattle_zips <- left_join(zips, zipcode, by = c("zip_code"="zip"))
+kable(head(seattle_zips))
+```
+
+_Then I will visualize number of pets per zip code._
+
+<center>
+```{r, map, echo = FALSE, message = FALSE, warning = FALSE}
+my_popup <- paste0("<br><strong>Zip: </strong>", 
+                   seattle_zips$zip_code,
+                   "<br><strong>Number of pets per zip code: </strong>", 
+                   seattle_zips$number)
+
+leaflet(seattle_zips) %>% 
+  setView(lng = -122.3, lat = 47.6, zoom = 11) %>%
+  addProviderTiles(providers$CartoDB.DarkMatter) %>%
+  addCircles(lng = ~longitude, lat = ~latitude, weight = 1,
+             radius = ~number*0.2, color = "darkorange", opacity = 1, fillOpacity = 1, popup = ~my_popup)
+```
+</center>
+
+_Then I would like to see if there any trends in owning cats vs dogs. I started from cats._
+
+<center>
+```{r, cat, echo = FALSE, message = FALSE, warning = FALSE}
+cats <- pets %>% filter(species == "Cat")
+cat_zips <- cats %>% group_by(zip_code) %>% summarize(number = n()) %>% arrange(desc(number))
+cat_zips <- left_join(cat_zips, zipcode, by = c("zip_code"="zip"))
+kable(head(cat_zips))
+
+cat_popup <- paste0("<br><strong>Zip: </strong>", 
+                   cat_zips$zip_code,
+                   "<br><strong>Number of cats per zip code: </strong>", 
+                   cat_zips$number)
+
+leaflet(cat_zips) %>% 
+  setView(lng = -122.3, lat = 47.6, zoom = 11) %>%
+  addProviderTiles(providers$CartoDB.DarkMatter) %>%
+  addCircles(lng = ~longitude, lat = ~latitude, weight = 1,
+             radius = ~number*0.2, color = "yellow", opacity = 1, fillOpacity = 1, popup = ~cat_popup)
+```
+</center>
+
+_Now let's explore dogs and map them._
+<center>
+```{r, dog, echo = FALSE, message = FALSE, warning = FALSE}
+dogs <- pets %>% filter(species == "Dog")
+dog_zips <- dogs %>% group_by(zip_code) %>% summarize(number = n()) %>% arrange(desc(number))
+dog_zips <- left_join(dog_zips, zipcode, by = c("zip_code"="zip"))
+kable(head(dog_zips))
+
+dog_popup <- paste0("<br><strong>Zip: </strong>", 
+                   dog_zips$zip_code,
+                   "<br><strong>Number of cats per zip code: </strong>", 
+                   dog_zips$number)
+
+leaflet(dog_zips) %>% 
+  setView(lng = -122.3, lat = 47.6, zoom = 11) %>%
+  addProviderTiles(providers$CartoDB.DarkMatter) %>%
+  addCircles(lng = ~longitude, lat = ~latitude, weight = 1,
+             radius = ~number*0.2, color = "yellow", opacity = 1, fillOpacity = 1, popup = ~dog_popup)
+```
+
+
