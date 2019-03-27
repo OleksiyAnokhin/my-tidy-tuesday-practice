@@ -18,6 +18,8 @@ library(ggmap)
 library(stringr)
 library(viridis)
 library(zipcode)
+library(lubridate)
+library(zoo)
 # Disable scientific notation
 options(scipen = 999)
 ```
@@ -85,7 +87,7 @@ kable(head(dog_zips))
 
 dog_popup <- paste0("<br><strong>Zip: </strong>", 
                    dog_zips$zip_code,
-                   "<br><strong>Number of cats per zip code: </strong>", 
+                   "<br><strong>Number of dogs per zip code: </strong>", 
                    dog_zips$number)
 
 leaflet(dog_zips) %>% 
@@ -94,5 +96,84 @@ leaflet(dog_zips) %>%
   addCircles(lng = ~longitude, lat = ~latitude, weight = 1,
              radius = ~number*0.2, color = "yellow", opacity = 1, fillOpacity = 1, popup = ~dog_popup)
 ```
+</center>
 
+_I think it is obvious that people have more dogs in Seattle for some reason._
+
+_Now I would like to see how the registration went by month._
+
+_I start from converting data into more reliable format. From `chr` like `November 16 2018` to `int` like `Nov 2018`._
+
+```{r, date, echo = FALSE, message = FALSE, warning = FALSE}
+pets$license_issue_date <- mdy(pets$license_issue_date)
+pets$license_issue_date <- as.yearmon(pets$license_issue_date, "%m/%Y")
+pets_by_month <- pets %>% group_by(license_issue_date, species) %>% summarize(number = n())
+kable(head(pets_by_month))
+```
+
+_The chart will look like this:_
+
+```{r, date1, echo = FALSE, message = FALSE, warning = FALSE}
+ggplot(pets_by_month, aes(license_issue_date, number, color = species)) + geom_line(size = 1) +
+theme_tufte() +
+  theme(axis.title.y = element_blank()) +
+  theme(axis.title.x = element_blank()) +
+  theme(legend.position = "none") +
+  scale_fill_brewer(palette = "Paired")
+```
+
+_As you can see, the active registering of pets in this dataset started after 2015, which raises questions what had happened before. I doubt that people did not have pets in Seattle before 2015? Maybe the city established new rules for such registration or something else?_
+
+_Ok, let's check data from 2015 only. BTW, I realized that there are not only cats and dogs in this datasets, but also pigs and goats(!!!). I noticed it, when I visualized data on a previous chart._
+
+```{r, date2, echo = FALSE, message = FALSE, warning = FALSE}
+pets_by_month_2015 <- pets_by_month %>%
+  filter(license_issue_date >= as.yearmon("Jan 2015") & license_issue_date <= as.yearmon("Dec 2018")) %>%
+  filter(species == "Cat" | species == "Dog")
+```
+
+<center>
+```{r, date3, echo = FALSE, message = FALSE, warning = FALSE}
+ggplot(pets_by_month_2015, aes(license_issue_date, number, color = species)) + geom_line(size = 1) +
+theme_tufte() +
+  theme(axis.title.y = element_blank()) +
+  theme(axis.title.x = element_blank()) +
+  theme(legend.position = "none")
+```
+</center>
+
+_As you can see, dogs prevail. More interesting that the pattern of registration is the same for cats and dogs. Not sure why though._ 
+
+_Ok, everybody visualized cats and dogs and their popular names. I was curious about names of goats and pigs? Any pattern here?_
+
+```{r, goats_pigs, echo = FALSE, message = FALSE, warning = FALSE}
+goats_pigs <- pets %>%
+  filter(species == "Pig" | species == "Goat") %>% group_by(animals_name, species) %>% summarize(number = n())
+kable(goats_pigs)
+```
+
+_Which ones are your favorite? I love Brussels Sprout (goat), Coconut (pig), Othello (pig), Professor Nibblesworth (goat), and Sister Bertrille (pig). I was curious enough to google this Professor and found an [article](https://seattle.curbed.com/2017/12/15/16783234/seattle-popular-pet-names-2017), but not such person._ 
+
+_Ok, let's at least visualize the most popular names of pets, as everybody did. I will filter by names with at least 100 times._
+
+```{r, names, echo = FALSE, message = FALSE, warning = FALSE}
+pets_names <- pets %>% group_by(species, animals_name) %>% summarize(number = n()) %>% arrange(desc(number)) %>% filter(number >= 100)
+```
+
+```{r, names1, echo = FALSE, message = FALSE, warning = FALSE}
+ggplot(pets_names, aes(reorder(animals_name, number), number, fill = species)) + geom_bar(stat = "identity", color  = "black") +
+  coord_flip() +
+  theme_tufte() +
+  theme(axis.title.y = element_blank()) +
+  theme(axis.title.x = element_blank()) +
+  theme(legend.position = "none")
+```
+
+_It is interesting that so many cats are not registered with names. Why?_
+
+**Conclusion**
+
+_A pretty simple dataset, but still fun. I need a pig and I would call it Othello now._
+
+**Author's Twitter**: [OleksiyAnokhin](https://twitter.com/OleksiyAnokhin)
 
