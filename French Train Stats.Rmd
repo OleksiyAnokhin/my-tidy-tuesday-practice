@@ -1,0 +1,33 @@
+---
+title: "Exploring French Train Stats"
+author: "Oleksiy Anokhin"
+date: "March 29, 2019"
+output: html_document
+---
+
+```{r, packages, echo = FALSE, message = FALSE, warning = FALSE}
+# Install packages 
+library(tidyverse)
+library(ggthemes)
+library(knitr)
+library(leaflet)
+library(leaflet.extras)
+library(maps)
+library(mapdata)
+library(ggmap)
+library(stringr)
+library(viridis)
+library(zipcode)
+library(lubridate)
+library(zoo)
+# Disable scientific notation
+options(scipen = 999)
+```
+
+_This small project is a part of a weekly [**#TidyTuesday**](https://github.com/rfordatascience/tidytuesday) challenge. This time I will explore French Train stats._
+
+```{r, data, echo = FALSE, message = FALSE, warning = FALSE}
+full_trains <- read_csv("full_trains.csv")
+small_trains <- read_csv("small_trains.csv")
+```
+
