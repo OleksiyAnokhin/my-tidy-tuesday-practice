@@ -1,0 +1,20 @@
+---
+title: "Board Games Database"
+author: "Oleksiy Anokhin"
+date: "March 18, 2019"
+output: html_document
+---
+
+
+```{r, packages, echo = FALSE, message = FALSE, warning = FALSE}
+# Install packages 
+library(tidyverse)
+library(ggthemes)
+# Disable scientific notation
+options(scipen = 999)
+```
+
+```{r, read data, echo = FALSE, message = FALSE, warning = FALSE}
+# Read datasets
+board_games <- read_csv("board_games.csv")
+```
