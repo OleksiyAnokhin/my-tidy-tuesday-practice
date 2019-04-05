@@ -1,0 +1,30 @@
+---
+title: "Seattle Bike Traffic"
+author: "Oleksiy Anokhin"
+date: "April 4, 2019"
+output: html_document
+---
+
+```{r, packages, echo = FALSE, message = FALSE, warning = FALSE}
+# Install packages 
+library(tidyverse)
+library(ggthemes)
+library(knitr)
+library(leaflet)
+library(leaflet.extras)
+library(maps)
+library(mapdata)
+library(ggmap)
+library(stringr)
+library(viridis)
+library(zipcode)
+library(lubridate)
+library(zoo)
+# Disable scientific notation
+options(scipen = 999)
+```
+
+```{r, data, echo = FALSE, message = FALSE, warning = FALSE}}
+bike_data <- read_csv("bike_traffic.csv")
+```
+
