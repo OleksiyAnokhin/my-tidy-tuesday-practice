@@ -1,7 +1,41 @@
 ---
-title: "Wine"
+title: "Learning About Wine From Scratch"
 author: "Oleksiy Anokhin"
 date: "6/17/2019"
 output: html_document
 ---
 
+```{r, packages, echo = FALSE, message = FALSE, warning = FALSE}
+# Install packages 
+library(tidyverse)
+library(ggthemes)
+```
+
+**Introduction** 
+
+I do not know anything about wine. A man supposed to know something, I guess. How to chose good wine and what
+does "good" actually mean. I never cared about wine too much, even being born in a place, famous for its wines. Last Cristmas I just bought three bottles of Georgian wine, because I just expected it to be good + having some sympathy to local producers. 
+
+This time I decided to learn about wine in a more scientific way. I picked a dataset from [Kaggle](https://www.kaggle.com/zynicide/wine-reviews), which stores information about almost 130000 different wines, its price, rankings, origin etc. 
+
+```{r, data, echo = FALSE, message = FALSE, warning = FALSE}
+#Read RDS data
+wine_data <- readRDS("wine_data.rds")
+```
+
+This is how the dataset looks like. For me three the most interesting variables are: `country`, `points`, and `price`. These variables will allow me to make a quick analysis of wine quality and its price, taking into account its origin.  
+
+```{r, data1, echo = FALSE, message = FALSE, warning = FALSE}
+small_wine_data <- wine_data[1:1, ]
+knitr::kable(head(small_wine_data))
+```
+
+Unfortunately, there many `NA` (missing data) for some variables, which will make the analysis a little less accurate. 
+
+**Question 1. Visualize the correlation between price and ranking.**
+
+Correlation always helpful to see the some basic patterns and outliers. 
+
+```{r, data2, echo = FALSE, message = FALSE, warning = FALSE}
+ggplot(wine_data, aes(points, price)) + geom_point() + theme_tufte()
+```
