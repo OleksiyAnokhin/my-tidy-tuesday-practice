@@ -25,3 +25,5 @@ wine_data <- readRDS("wine_data.rds")
 ggplot(wine_data, aes(points, price)) + geom_point()
 
 ggplotly(ggplot(wine_data, aes(points, price)) + geom_point())
+
+
