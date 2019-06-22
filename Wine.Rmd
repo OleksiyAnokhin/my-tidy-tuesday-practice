@@ -9,6 +9,7 @@ output: html_document
 # Install packages 
 library(tidyverse)
 library(ggthemes)
+library(moderndive)
 ```
 
 **Introduction** 
