@@ -6,6 +6,7 @@
 
 # Install libraries
 library(tidyverse)
+library(ggthemes)
 library(moderndive)
 library(plotly)
 
@@ -22,8 +23,18 @@ library(plotly)
 wine_data <- readRDS("wine_data.rds")
 
 # Show correlation
-ggplot(wine_data, aes(points, price)) + geom_point()
+ggplot(wine_data, aes(points, price)) + geom_point() + theme_tufte()
 
-ggplotly(ggplot(wine_data, aes(points, price)) + geom_point())
+wine_by_country <- wine_data %>% group_by(country) %>% summarize(n()) %>% arrange(desc(`n()`)) # %>%
+  # ggplot(., aes(country, `n()`)) + geom_bar(stat = "identity")
+
+knitr::kable(wine_by_country)
+
+wine_by_country_top10 <- wine_data %>% group_by(country) %>% summarize(n()) %>% 
+  arrange(desc(`n()`)) %>% top_n(10) %>%
+  ggplot(., aes(country, price)) + 
+  geom_boxplot(color = "red", fill = "orange", alpha = 0.2)
+
+
 
 

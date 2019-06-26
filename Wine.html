@@ -425,6 +425,202 @@ $(document).ready(function () {
 <p><strong>Question 1. Visualize the correlation between price and ranking.</strong></p>
 <p>Correlation always helpful to see the some basic patterns and outliers.</p>
 <p><img src="data:image/png;base64,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vf8f37uz3Ly066TikoutsuXt5q3frE/Mf/QP66PDznLJxVbZsrPM6Qz04a11Je7dXD8LcUw88WSr7NxzpnXhIzvLgI/sLE/MKKDbqws2d/jhrd37ZK7EuLRVdrZvKLHavetsZ7li91789vbsd5bdfnFpLxm/wzQa0I921/+uH/6PXNp37tJW2bo3+5e1zu2OBDvL79htlS07y3knL+0lo3eYRgO6vUePb7/hwyWXXNoqWz+f+znFuce3t1fp2FkuO98qW3aWGX0Saf1X57urxz/ffRrt3fU/rmK7vFUe335lc+ut54+Zg8d3b55/H4Sd5cLFVrGz7Nw5vxDh0l4ydodpNKCrx3+7XC7/Ynt3795cvvLxiefThidbZb1Nln9ho2xsPmfz1sWzUzvL1uWtYmfZuH9z83mC7bO3S3vJyB2m1YACNE9AAUICChASUICQgAKEBBQgJKAAIQEFCAkoQEhAAUICChASUICQgDIJD763ePnUc2B+BJRJePCOgFKfgAKEBJQpe/BvTj0DJk1AmbJPvnHqGTBpAsqE/XYhoByTgDJdv3pRQDkqAaUTj3794xdfXv36W4sX/uTT7X/4+28tFl/d/ubR//j++n/u/swXP14s/mD9m/UvG9/Y3vzOB//44QmnzyQJKH149FcvLhYvf3KexNXqi+997YPVP/2XxQs/Wa0e/OHmf+7+zOcvbv7M5qKmR+9s/+iD17/x6frPf+XDU94BpkhA6cU6h7//ex+svnh9sfjh5nebcm7+41kX19XcJPPB64t//sdnf+brnz4J6Cdnf/TBH314uskzTQJKL9Y53FRx08r1r5/sXt78fPs657qcL1/6M5+cZfU8oO9virtaeQpPaQJKLx6df9jo/XUdL36zOwV9EtCz//zb3wnoJxevm0JRAkovLpr528ULP9k9ZV9tcnr2KuizArp5VVRCOQIBpRd7AvrJ8wO6+vx7i3VC/90pZs2kCSi9uAjo5y+eBXR3iechAV2tfv293TvzUJCA0otLZ6Bf//TB9n321SagmxvPC+jZVfWuY6IwAaUXFzn8ZBPJ9xfbt9bXN3bXL+0P6C83VzGtT1wFlMIElF6cX6L04PXd2+67i5p2//G8o+fvu2+i+f7iKx988deffrK7nP7r3keiLAGlF+uALjafKNpeQX92OegHm88jfbj53S8Xi6+vb/xqsU7m9o9uenr2waUfrn/5zgerR++/8MMTzp5JElB6sXl6/ssXNx9q3/3+p+vffPVPP93+r7NUvr/9ZfthzvX55qMfL17409XqHz/41bcWi29/cNLpM0UCSi8e+akdtEZA6YWA0hwBpRcCSnMElF6cv8MOzRBQerG5Et77QDRFQOnD+vzz4ruUoRECChASUICQgAKEBBQgJKAAIQEFCAkoQEhAAUICChASUICQgAKEBBQgJKAAIQEFCP1/m4bxfLZ+rlkAAAAASUVORK5CYII=" width="672" /></p>
+<p>We can see our first chart, where different types of wine are visualized by price and points, assigned to each type of wine by experts.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> We definitely see some outliers on this graph. For example, we can see that several wines cost about 2000 dollars, but at the same time experts give them pretty the same score as much cheaper options. Moreover, one wine cost more than 3000 dollars and its score is below 90.</p>
+<p>As a person, who does not know anything about wine, but tries to maximize my own utility, I am focused on several types of wine, which ar elocated in the bottom right corner and have the lowest price and the rest rankings. Actucally, it is a good idea to create a <strong>ratio</strong>, which will help to identify the best deals among almost 130000 options.</p>
+<p>First of all, I decided to do some exploratory analysis of this dataset, trying to understand some “wine patterns”.</p>
+<p><strong>2. How many countries are in our dataset? Which countries are presented most of all?</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">country</th>
+<th align="right">n()</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">US</td>
+<td align="right">54504</td>
+</tr>
+<tr class="even">
+<td align="left">France</td>
+<td align="right">22093</td>
+</tr>
+<tr class="odd">
+<td align="left">Italy</td>
+<td align="right">19540</td>
+</tr>
+<tr class="even">
+<td align="left">Spain</td>
+<td align="right">6645</td>
+</tr>
+<tr class="odd">
+<td align="left">Portugal</td>
+<td align="right">5691</td>
+</tr>
+<tr class="even">
+<td align="left">Chile</td>
+<td align="right">4472</td>
+</tr>
+<tr class="odd">
+<td align="left">Argentina</td>
+<td align="right">3800</td>
+</tr>
+<tr class="even">
+<td align="left">Austria</td>
+<td align="right">3345</td>
+</tr>
+<tr class="odd">
+<td align="left">Australia</td>
+<td align="right">2329</td>
+</tr>
+<tr class="even">
+<td align="left">Germany</td>
+<td align="right">2165</td>
+</tr>
+<tr class="odd">
+<td align="left">New Zealand</td>
+<td align="right">1419</td>
+</tr>
+<tr class="even">
+<td align="left">South Africa</td>
+<td align="right">1401</td>
+</tr>
+<tr class="odd">
+<td align="left">Israel</td>
+<td align="right">505</td>
+</tr>
+<tr class="even">
+<td align="left">Greece</td>
+<td align="right">466</td>
+</tr>
+<tr class="odd">
+<td align="left">Canada</td>
+<td align="right">257</td>
+</tr>
+<tr class="even">
+<td align="left">Hungary</td>
+<td align="right">146</td>
+</tr>
+<tr class="odd">
+<td align="left">Bulgaria</td>
+<td align="right">141</td>
+</tr>
+<tr class="even">
+<td align="left">Romania</td>
+<td align="right">120</td>
+</tr>
+<tr class="odd">
+<td align="left">Uruguay</td>
+<td align="right">109</td>
+</tr>
+<tr class="even">
+<td align="left">Turkey</td>
+<td align="right">90</td>
+</tr>
+<tr class="odd">
+<td align="left">Slovenia</td>
+<td align="right">87</td>
+</tr>
+<tr class="even">
+<td align="left">Georgia</td>
+<td align="right">86</td>
+</tr>
+<tr class="odd">
+<td align="left">England</td>
+<td align="right">74</td>
+</tr>
+<tr class="even">
+<td align="left">Croatia</td>
+<td align="right">73</td>
+</tr>
+<tr class="odd">
+<td align="left">Mexico</td>
+<td align="right">70</td>
+</tr>
+<tr class="even">
+<td align="left">NA</td>
+<td align="right">63</td>
+</tr>
+<tr class="odd">
+<td align="left">Moldova</td>
+<td align="right">59</td>
+</tr>
+<tr class="even">
+<td align="left">Brazil</td>
+<td align="right">52</td>
+</tr>
+<tr class="odd">
+<td align="left">Lebanon</td>
+<td align="right">35</td>
+</tr>
+<tr class="even">
+<td align="left">Morocco</td>
+<td align="right">28</td>
+</tr>
+<tr class="odd">
+<td align="left">Peru</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="left">Ukraine</td>
+<td align="right">14</td>
+</tr>
+<tr class="odd">
+<td align="left">Czech Republic</td>
+<td align="right">12</td>
+</tr>
+<tr class="even">
+<td align="left">Macedonia</td>
+<td align="right">12</td>
+</tr>
+<tr class="odd">
+<td align="left">Serbia</td>
+<td align="right">12</td>
+</tr>
+<tr class="even">
+<td align="left">Cyprus</td>
+<td align="right">11</td>
+</tr>
+<tr class="odd">
+<td align="left">India</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">Switzerland</td>
+<td align="right">7</td>
+</tr>
+<tr class="odd">
+<td align="left">Luxembourg</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td align="left">Armenia</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">Bosnia and Herzegovina</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">China</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Egypt</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Slovakia</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Removed 8996 rows containing missing values.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
 
 
 

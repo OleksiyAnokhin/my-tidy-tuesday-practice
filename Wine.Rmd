@@ -40,3 +40,24 @@ Correlation always helpful to see the some basic patterns and outliers.
 ```{r, data2, echo = FALSE, message = FALSE, warning = FALSE}
 ggplot(wine_data, aes(points, price)) + geom_point() + theme_tufte()
 ```
+
+We can see our first chart, where different types of wine are visualized by price and points, assigned to each type of wine by experts.^[Removed 8996 rows containing missing values.] We definitely see some outliers on this graph. For example, we can see that several wines cost about 2000 dollars, but at the same time experts give them pretty the same score as much cheaper options. Moreover, one wine cost more than 3000 dollars and its score is below 90.
+
+As a person, who does not know anything about wine, but tries to maximize my own utility, I am focused on several types of wine, which ar elocated in the bottom right corner and have the lowest price and the rest rankings. Actucally, it is a good idea to create a **ratio**, which will help to identify the best deals among almost 130000 options. 
+
+First of all, I decided to do some exploratory analysis of this dataset, trying to understand some "wine patterns". 
+
+**2. How many countries are in our dataset? Which countries are presented most of all?**
+
+If we summarize our data by country, we can see that US wine presents about 40% of the whole dataset. Besides, other traditional countries like France, Italy, Spain, Portugal, and Chile have their own solid represenation in this dataset. Moreover, I identified 14 different wines from Ukraine and I am willing to explore it separately. 
+
+```{r, data3, echo = FALSE, message = FALSE, warning = FALSE}
+wine_by_country <- wine_data %>% group_by(country) %>% summarize(n()) %>% arrange(desc(`n()`)) 
+knitr::kable(wine_by_country)
+```
+
+
+
+
+
+
