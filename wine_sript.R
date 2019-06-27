@@ -30,11 +30,15 @@ wine_by_country <- wine_data %>% group_by(country) %>% summarize(n()) %>% arrang
 
 knitr::kable(wine_by_country)
 
-wine_by_country_top10 <- wine_data %>% group_by(country) %>% summarize(n()) %>% 
-  arrange(desc(`n()`)) %>% top_n(10) %>%
+# wine_by_country_top10 <- wine_data %>% group_by(country) %>% summarize(n()) %>% 
+#   arrange(desc(`n()`)) %>% top_n(10) %>%
+#   ggplot(., aes(country, price)) + 
+#   geom_boxplot(color = "red", fill = "orange", alpha = 0.2)
+
+
+wine_data %>%
   ggplot(., aes(country, price)) + 
-  geom_boxplot(color = "red", fill = "orange", alpha = 0.2)
-
-
+  geom_boxplot(color = "black", alpha = 0.2) + 
+  theme_tufte() + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
 
 
