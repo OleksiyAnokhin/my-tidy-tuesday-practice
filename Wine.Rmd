@@ -56,6 +56,15 @@ wine_by_country <- wine_data %>% group_by(country) %>% summarize(n()) %>% arrang
 knitr::kable(wine_by_country)
 ```
 
+I decided to analyze which wine has "the best value", the ratio of the cost and points. 
+
+I just selected two parameters - points and price (and three other variables) and removed all NA values. As a result, I got 120,915 rows (total dataset was 129,971)
+
+```{r, data3, echo = FALSE, message = FALSE, warning = FALSE}
+wine_data_ratio <- wine_data %>% select(title, country, points, price, variety) 
+```
+
+
 
 
 
