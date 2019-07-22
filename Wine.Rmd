@@ -60,9 +60,18 @@ I decided to analyze which wine has "the best value", the ratio of the cost and 
 
 I just selected two parameters - points and price (and three other variables) and removed all NA values. As a result, I got 120,915 rows (total dataset was 129,971)
 
-```{r, data3, echo = FALSE, message = FALSE, warning = FALSE}
-wine_data_ratio <- wine_data %>% select(title, country, points, price, variety) 
+```{r, data4, echo = FALSE, message = FALSE, warning = FALSE}
+wine_data_value <- wine_data %>% select(title, country, points, price, variety) %>% drop_na() %>% 
+        mutate(wine_value = price/points) %>%
+        arrange(wine_value)
+wine_data_value
 ```
+
+Now you can see that some wines for only 4 bucks have high points. 
+
+Next I tried to see which countries with affordable prices have on average high poins. Here I did not select all countries, but only countries which have more than 1000 different types.
+
+
 
 
 

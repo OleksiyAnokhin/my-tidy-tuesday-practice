@@ -6,9 +6,7 @@
 
 # Install libraries
 library(tidyverse)
-library(ggthemes)
 library(moderndive)
-library(plotly)
 
 # Read data
 # wine_data <- read_csv("winemag-data-130k-v2.csv")
@@ -25,14 +23,9 @@ wine_data <- readRDS("wine_data.rds")
 # Show correlation
 ggplot(wine_data, aes(points, price)) + geom_point()
 
-ggplotly(ggplot(wine_data, aes(points, price)) + geom_point()) + theme_tufte()
+wine_data_clean <- wine_data %>% # select(points, price) %>%
+                    drop_na(points, price) 
 
 wine_data_value <- wine_data %>% select(title, country, points, price, variety) %>% drop_na() %>% 
-        mutate(wine_value = price/points) %>%
-        arrange(wine_value) 
-
-# wine_value_top_100 <- wine_data_value %>% arrange(wine_value) %>% top_n(100)
-        
-knitr::kable(wine_value_top_100)
-
-
+  mutate(wine_value = price/points) %>%
+  arrange(wine_value) 

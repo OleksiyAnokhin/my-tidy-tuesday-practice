@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Oleksiy Anokhin" />
@@ -343,18 +344,6 @@ summary {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
@@ -616,6 +605,24 @@ $(document).ready(function () {
 </tr>
 </tbody>
 </table>
+<p>I decided to analyze which wine has “the best value”, the ratio of the cost and points.</p>
+<p>I just selected two parameters - points and price (and three other variables) and removed all NA values. As a result, I got 120,915 rows (total dataset was 129,971)</p>
+<pre><code>## # A tibble: 120,915 x 6
+##    title                        country points price variety     wine_value
+##    &lt;chr&gt;                        &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt;
+##  1 Bandit NV Merlot (Californi~ US          86     4 Merlot          0.0465
+##  2 Cramele Recas 2011 UnWineD ~ Romania     86     4 Pinot Grig~     0.0465
+##  3 Felix Solis 2013 Flirty Bir~ Spain       85     4 Syrah           0.0471
+##  4 Dancing Coyote 2015 White (~ US          85     4 White Blend     0.0471
+##  5 Broke Ass 2009 Red Malbec-S~ Argent~     84     4 Malbec-Syr~     0.0476
+##  6 Bandit NV Chardonnay (Calif~ US          84     4 Chardonnay      0.0476
+##  7 Terrenal 2010 Cabernet Sauv~ Spain       84     4 Cabernet S~     0.0476
+##  8 Bandit NV Merlot (Californi~ US          84     4 Merlot          0.0476
+##  9 Terrenal 2010 Estate Bottle~ Spain       84     4 Tempranillo     0.0476
+## 10 Pam&#39;s Cuties NV Unoaked Cha~ US          83     4 Chardonnay      0.0482
+## # ... with 120,905 more rows</code></pre>
+<p>Now you can see that some wines for only 4 bucks have high points.</p>
+<p>Next I tried to see which countries with affordable prices have on average high poins. Here I did not select all countries, but only countries which have more than 1000 different types.</p>
 <div class="footnotes">
 <hr />
 <ol>
@@ -640,6 +647,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
